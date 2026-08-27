@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Song Collection</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    #song-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .song-block {
+      border: 1px solid #ccc;
+      padding: 12px;
+      background: #f9f9f9;
+      cursor: grab;
+    }
+
+    .song-block.dragging {
+      opacity: 0.5;
+      cursor: grabbing;
+    }
+
+    .song-block h2 {
+      margin: 0 0 8px 0;
+      font-size: 20px;
+    }
+
+    .song-block p {
+      margin: 6px 0;
+    }
+
+    .song-block ul {
+      margin: 6px 0 0 20px;
+    }
+
+    .song-block a {
+      color: blue;
+    }
+  </style>
+</head>
+<body>
+  <h1>My Song Collection</h1>
+
+  <div id="song-list">
+    <div class="song-block" draggable="true">
+      <h2>Aaj Jaane Ki Zid Na Karo</h2>
+      <p><strong>Author:</strong> Fayyaz Hashmi</p>
+      <p>
+        <strong>Rekhta Link:</strong>
+        <a href="https://www.rekhta.org" target="_blank">View on Rekhta</a>
+      </p>
+      <p><strong>YouTube Videos:</strong></p>
+      <ul>
+        <li><a href="https://www.youtube.com/watch?v=example1" target="_blank">Version 1</a></li>
+        <li><a href="https://www.youtube.com/watch?v=example2" target="_blank">Version 2</a></li>
+      </ul>
+    </div>
+
+    <div class="song-block" draggable="true">
+      <h2>Ranjish Hi Sahi</h2>
+      <p><strong>Author:</strong> Ahmed Faraz</p>
+      <p>
+        <strong>Rekhta Link:</strong>
+        <a href="https://www.rekhta.org" target="_blank">View on Rekhta</a>
+      </p>
+      <p><strong>YouTube Videos:</strong></p>
+      <ul>
+        <li><a href="https://www.youtube.com/watch?v=example3" target="_blank">Version 1</a></li>
+        <li><a href="https://www.youtube.com/watch?v=example4" target="_blank">Version 2</a></li>
+      </ul>
+    </div>
+
+    <div class="song-block" draggable="true">
+      <h2>Hothon Se Chhoo Lo Tum</h2>
+      <p><strong>Author:</strong> Indeevar</p>
+      <p>
+        <strong>Rekhta Link:</strong>
+        <a href="https://www.rekhta.org" target="_blank">View on Rekhta</a>
+      </p>
+      <p><strong>YouTube Videos:</strong></p>
+      <ul>
+        <li><a href="https://www.youtube.com/watch?v=example5" target="_blank">Version 1</a></li>
+        <li><a href="https://www.youtube.com/watch?v=example6" target="_blank">Version 2</a></li>
+      </ul>
+    </div>
+
+    <div class="song-block" draggable="true">
+      <h2>Chupke Chupke Raat Din</h2>
+      <p><strong>Author:</strong> Hasrat Mohani</p>
+      <p>
+        <strong>Rekhta Link:</strong>
+        <a href="https://www.rekhta.org" target="_blank">View on Rekhta</a>
+      </p>
+      <p><strong>YouTube Videos:</strong></p>
+      <ul>
+        <li><a href="https://www.youtube.com/watch?v=example7" target="_blank">Version 1</a></li>
+        <li><a href="https://www.youtube.com/watch?v=example8" target="_blank">Version 2</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    const songList = document.getElementById("song-list");
+    let draggedItem = null;
+
+    const songBlocks = document.querySelectorAll(".song-block");
+
+    songBlocks.forEach((block) => {
+      block.addEventListener("dragstart", () => {
+        draggedItem = block;
+        block.classList.add("dragging");
+      });
+
+      block.addEventListener("dragend", () => {
+        draggedItem = null;
+        block.classList.remove("dragging");
+      });
+
+      block.addEventListener("dragover", (event) => {
+        event.preventDefault();
+      });
+
+      block.addEventListener("drop", (event) => {
+        event.preventDefault();
+        if (draggedItem !== block) {
+          const blocks = [...songList.querySelectorAll(".song-block")];
+          const draggedIndex = blocks.indexOf(draggedItem);
+          const targetIndex = blocks.indexOf(block);
+
+          if (draggedIndex < targetIndex) {
+            songList.insertBefore(draggedItem, block.nextSibling);
+          } else {
+            songList.insertBefore(draggedItem, block);
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>
