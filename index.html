@@ -234,12 +234,15 @@ function createYouTubeList(links) {
       const authorImage = normalizeText(row.author_image);
       const youtubeLinks = getYouTubeFields(row);
 
+      const youtubeLabelsText = youtubeLinks.map(item => item.label).join(" ").toLowerCase();
+
       const block = document.createElement("div");
       block.className = "song-block";
       block.draggable = true;
       block.dataset.id = id;
       block.dataset.song = songName.toLowerCase();
       block.dataset.author = authorName.toLowerCase();
+      block.dataset.youtube = youtubeLabelsText;
 
       const header = document.createElement("div");
       header.className = "song-header";
@@ -356,8 +359,10 @@ function createYouTubeList(links) {
       blocks.forEach((block) => {
         const songName = block.dataset.song || "";
         const authorName = block.dataset.author || "";
+        const youtubeLabels = block.dataset.youtube || "";
+
         const matches =
-          songName.includes(searchTerm) || authorName.includes(searchTerm);
+          songName.includes(searchTerm) || authorName.includes(searchTerm) || youtubeLabels.includes(searchTerm);
 
         block.classList.toggle("hidden", !matches);
       });
